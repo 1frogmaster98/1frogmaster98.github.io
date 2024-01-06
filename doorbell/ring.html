@@ -13,7 +13,7 @@
             background-color: #f2f2f2; /* Light gray background color */
             transition: filter 0.5s ease; /* Transition effect for filter property */
         }
-    
+
         .background-container {
             position: fixed;
             width: 100%;
@@ -24,7 +24,7 @@
             background-position: center;
             filter: blur(3px); /* Adjust the blur amount as needed */
         }
-    
+
         .content-container {
             position: absolute;
             top: 50%;
@@ -38,18 +38,18 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
             transition: filter 0.5s ease, background 0.5s ease, opacity 0.5s ease; /* Transition effect for filter, background, and opacity properties */
         }
-    
+
         .content-container.disabled-interface {
             filter: grayscale(1); /* Grayscale effect to visually disable the content */
             pointer-events: none; /* Disable pointer events on the content */
             background: linear-gradient(to top, rgba(255, 51, 51, 0.8), rgba(255, 51, 51, 1)); /* Gradient background when disabled, fading in from the bottom */
             opacity: 0.8; /* Adjust the starting opacity */
         }
-    
+
         h1 {
             color: #333;
         }
-    
+
         #doorbell-image {
             width: 150px; /* Adjust the size as needed */
             height: 150px;
@@ -58,7 +58,7 @@
             border-radius: 50%; /* Circular shape */
             border: 2px solid #ccc; /* Light gray border */
         }
-    
+
         #message-input {
             width: 80%;
             margin-top: 10px;
@@ -68,96 +68,69 @@
             border: 1px solid #ccc; /* Light gray border */
             border-radius: 5px; /* Slightly rounded corners */
         }
-    
+
         .disabled-interface .content-container {
             background: linear-gradient(to top, rgba(255, 51, 51, 0.8), rgba(255, 51, 51, 1)); /* Gradient background when disabled, fading in from the bottom */
         }
-    
+
         .version-info {
             position: fixed;
             bottom: 10px;
             right: 10px;
             color: #333;
         }
-    </style>
-    
-    
-<script>
-    let lastClickTime = 0;
-    const clickInterval = 15000; // Set the interval to 15 seconds
 
-    function sendWebhook() {
-        const currentTime = Date.now();
-
-        // Check if the time since the last click is greater than the interval
-        if (currentTime - lastClickTime >= clickInterval) {
-            // Update the last click time
-            lastClickTime = currentTime;
-
-            // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
-            const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
-
-            // Get device information (you may customize this based on your needs)
-            const deviceInfo = navigator.userAgent;
-
-            // Get the message from the input box
-            const messageInput = document.getElementById('message-input');
-            const message = messageInput ? messageInput.value : '';
-
-            // Create an embed object
-            const embed = {
-                title: 'Doorbell',
-                color: 16711680, // Red color
-                description: 'Someone is at the door!',
-                fields: [
-                    {
-                        name: 'Timestamp (EST)',
-                        value: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
-                        inline: true,
-                    },
-                    {
-                        name: 'Device Info',
-                        value: deviceInfo,
-                        inline: true,
-                    },
-                    {
-                        name: 'Message',
-                        value: message,
-                    },
-                ],
-            };
-
-            // Apply the disabled-interface class to the body to visually disable the content
-            document.body.classList.add('disabled-interface');
-
-            // Fetch the webhook with the embed object
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    embeds: [embed],
-                }),
-            })
-            .then(() => {
-                // Remove the disabled-interface class after the timeout
-                setTimeout(() => {
-                    document.body.classList.remove('disabled-interface');
-                }, clickInterval);
-            })
-            .catch(error => {
-                console.error('Error sending webhook:', error);
-
-                // Remove the disabled-interface class even if there is an error
-                document.body.classList.remove('disabled-interface');
-            });
-        } else {
-            // Do nothing if the button is clicked before the interval
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            opacity: 0; /* Initially hidden */
+            transition: opacity 1s ease; /* Fade-in and fade-out animation */
         }
-    }
-</script>
 
+        .popup.show {
+            opacity: 1; /* Show the popup */
+        }
+    </style>
+    <script>
+        let lastClickTime = 0;
+        const clickInterval = 15000; // Set the interval to 15 seconds
+
+        function sendWebhook() {
+            const currentTime = Date.now();
+
+            // Check if the time since the last click is greater than the interval
+            if (currentTime - lastClickTime >= clickInterval) {
+                // Update the last click time
+                lastClickTime = currentTime;
+
+                // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
+                const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
+
+                // Apply the disabled-interface class to the body to gray out the interface
+                document.body.classList.add('disabled-interface');
+
+                // ... Rest of your existing code ...
+
+                // Show the popup
+                const popup = document.getElementById('popup');
+                popup.classList.add('show');
+
+                // Hide the popup after a delay
+                setTimeout(() => {
+                    popup.classList.remove('show');
+                }, 3000); // Adjust the delay (in milliseconds) as needed
+            } else {
+                // Do nothing if the button is clicked before the interval
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="background-container"></div>
@@ -166,6 +139,11 @@
         <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
         <input type="text" id="message-input" placeholder="Optional: Enter a message...">
     </div>
-    <div style="position: fixed; bottom: 10px; right: 10px; color: #333;">Version: v1.0.6</div>
+    <div class="version-info">Version: v1.0.1</div>
+
+    <!-- Popup Element -->
+    <div id="popup" class="popup">
+        Bell has been rung!
+    </div>
 </body>
 </html>
