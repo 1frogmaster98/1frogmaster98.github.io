@@ -49,13 +49,38 @@
             // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
             const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
 
+            // Create a new Date object to get the current timestamp
+            const timestamp = new Date().toISOString();
+
+            // Get device information (you may customize this based on your needs)
+            const deviceInfo = navigator.userAgent;
+
+            // Create an embed object
+            const embed = {
+                title: 'Doorbell',
+                color: 16711680, // Red color
+                description: 'Someone is at the door!',
+                fields: [
+                    {
+                        name: 'Timestamp',
+                        value: timestamp,
+                        inline: true,
+                    },
+                    {
+                        name: 'Device Info',
+                        value: deviceInfo,
+                        inline: true,
+                    },
+                ],
+            };
+
             fetch(webhookUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    content: 'Someone is at the door!',
+                    embeds: [embed],
                 }),
             });
         }
