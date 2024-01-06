@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFC Webhook</title>
+    <script>
+        function sendWebhook() {
+            // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
+            const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: 'NFC Tag tapped!',
+                }),
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Tap your NFC tag</h1>
+    <button onclick="sendWebhook()">Send Webhook</button>
+</body>
+</html>
