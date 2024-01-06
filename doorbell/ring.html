@@ -98,39 +98,42 @@
             opacity: 1; /* Show the popup */
         }
     </style>
-    <script>
-        let lastClickTime = 0;
-        const clickInterval = 15000; // Set the interval to 15 seconds
+<script>
+    let lastClickTime = 0;
+    const clickInterval = 15000; // Set the interval to 15 seconds
 
-        function sendWebhook() {
-            const currentTime = Date.now();
+    function sendWebhook() {
+        const currentTime = Date.now();
 
-            // Check if the time since the last click is greater than the interval
-            if (currentTime - lastClickTime >= clickInterval) {
-                // Update the last click time
-                lastClickTime = currentTime;
+        // Check if the time since the last click is greater than the interval
+        if (currentTime - lastClickTime >= clickInterval) {
+            // Update the last click time
+            lastClickTime = currentTime;
 
-                // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
-                const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
+            // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
+            const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
 
-                // Apply the disabled-interface class to the body to gray out the interface
-                document.body.classList.add('disabled-interface');
+            // Apply the disabled-interface class to the body to gray out the interface
+            document.body.classList.add('disabled-interface');
 
-                // ... Rest of your existing code ...
+            // ... Rest of your existing code ...
 
-                // Show the popup
-                const popup = document.getElementById('popup');
-                popup.classList.add('show');
+            // Show the popup
+            const popup = document.getElementById('popup');
+            popup.classList.add('show');
 
-                // Hide the popup after a delay
-                setTimeout(() => {
-                    popup.classList.remove('show');
-                }, 3000); // Adjust the delay (in milliseconds) as needed
-            } else {
-                // Do nothing if the button is clicked before the interval
-            }
+            // Hide the popup after a delay
+            setTimeout(() => {
+                popup.classList.remove('show');
+                // Remove the disabled-interface class after the timeout
+                document.body.classList.remove('disabled-interface');
+            }, 3000); // Adjust the delay (in milliseconds) as needed
+        } else {
+            // Do nothing if the button is clicked before the interval
         }
-    </script>
+    }
+</script>
+
 </head>
 <body>
     <div class="background-container"></div>
@@ -139,7 +142,7 @@
         <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
         <input type="text" id="message-input" placeholder="Optional: Enter a message...">
     </div>
-    <div class="version-info">Version: v1.0.8</div>
+    <div class="version-info">Version: v1.0.9</div>
 
     <!-- Popup Element -->
     <div id="popup" class="popup">
