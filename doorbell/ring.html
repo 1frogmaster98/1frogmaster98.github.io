@@ -11,8 +11,9 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden; /* Prevent scrolling */
             background-color: #f2f2f2; /* Light gray background color */
+            transition: filter 0.5s ease; /* Transition effect for filter property */
         }
-
+    
         .background-container {
             position: fixed;
             width: 100%;
@@ -23,7 +24,7 @@
             background-position: center;
             filter: blur(3px); /* Adjust the blur amount as needed */
         }
-
+    
         .content-container {
             position: absolute;
             top: 50%;
@@ -35,13 +36,19 @@
             border-radius: 10px; /* Rounded corners */
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
-            transition: filter 0.5s ease; /* Transition effect for filter property */
+            transition: filter 0.5s ease, background 0.5s ease; /* Transition effect for filter and background properties */
         }
-
+    
+        .content-container.disabled-interface {
+            filter: grayscale(1); /* Grayscale effect to visually disable the content */
+            pointer-events: none; /* Disable pointer events on the content */
+            background: linear-gradient(to right, #e6e6ff, #cc99ff); /* Gradient background when disabled */
+        }
+    
         h1 {
             color: #333;
         }
-
+    
         #doorbell-image {
             width: 150px; /* Adjust the size as needed */
             height: 150px;
@@ -50,7 +57,7 @@
             border-radius: 50%; /* Circular shape */
             border: 2px solid #ccc; /* Light gray border */
         }
-
+    
         #message-input {
             width: 80%;
             margin-top: 10px;
@@ -60,12 +67,19 @@
             border: 1px solid #ccc; /* Light gray border */
             border-radius: 5px; /* Slightly rounded corners */
         }
-
+    
         .disabled-interface .content-container {
-            filter: grayscale(1); /* Grayscale effect to gray out the content */
-            pointer-events: none; /* Disable pointer events on the content */
+            background: linear-gradient(to right, #e6e6ff, #cc99ff); /* Gradient background when disabled */
+        }
+    
+        .version-info {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            color: #333;
         }
     </style>
+    
 <script>
     let lastClickTime = 0;
     const clickInterval = 15000; // Set the interval to 15 seconds
@@ -80,10 +94,6 @@
 
             // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
             const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
-
-            // Apply the disabled-interface class to the content container to visually disable it
-            const contentContainer = document.querySelector('.content-container');
-            contentContainer.classList.add('disabled-interface');
 
             // Get device information (you may customize this based on your needs)
             const deviceInfo = navigator.userAgent;
@@ -115,6 +125,9 @@
                 ],
             };
 
+            // Apply the disabled-interface class to the body to visually disable the content
+            document.body.classList.add('disabled-interface');
+
             // Fetch the webhook with the embed object
             fetch(webhookUrl, {
                 method: 'POST',
@@ -128,14 +141,14 @@
             .then(() => {
                 // Remove the disabled-interface class after the timeout
                 setTimeout(() => {
-                    contentContainer.classList.remove('disabled-interface');
+                    document.body.classList.remove('disabled-interface');
                 }, clickInterval);
             })
             .catch(error => {
                 console.error('Error sending webhook:', error);
 
                 // Remove the disabled-interface class even if there is an error
-                contentContainer.classList.remove('disabled-interface');
+                document.body.classList.remove('disabled-interface');
             });
         } else {
             // Do nothing if the button is clicked before the interval
@@ -151,6 +164,6 @@
         <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
         <input type="text" id="message-input" placeholder="Optional: Enter a message...">
     </div>
-    <div style="position: fixed; bottom: 10px; right: 10px; color: #333;">Version: v1.0.4</div>
+    <div style="position: fixed; bottom: 10px; right: 10px; color: #333;">Version: v1.0.5</div>
 </body>
 </html>
