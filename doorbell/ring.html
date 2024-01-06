@@ -66,51 +66,83 @@
             pointer-events: none; /* Disable pointer events on the content */
         }
     </style>
-    <script>
-        let lastClickTime = 0;
-        const clickInterval = 15000; // Set the interval to 15 seconds
+<script>
+    let lastClickTime = 0;
+    const clickInterval = 15000; // Set the interval to 15 seconds
 
-        function sendWebhook() {
-            const currentTime = Date.now();
-            
-            // Check if the time since the last click is greater than the interval
-            if (currentTime - lastClickTime >= clickInterval) {
-                // Update the last click time
-                lastClickTime = currentTime;
+    function sendWebhook() {
+        const currentTime = Date.now();
 
-                // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
-                const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
+        // Check if the time since the last click is greater than the interval
+        if (currentTime - lastClickTime >= clickInterval) {
+            // Update the last click time
+            lastClickTime = currentTime;
 
-                // Apply the disabled-interface class to the body to gray out the content
-                document.body.classList.add('disabled-interface');
+            // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
+            const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
 
-                // Fetch the webhook
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
+            // Apply the disabled-interface class to the content container to visually disable it
+            const contentContainer = document.querySelector('.content-container');
+            contentContainer.classList.add('disabled-interface');
+
+            // Get device information (you may customize this based on your needs)
+            const deviceInfo = navigator.userAgent;
+
+            // Get the message from the input box
+            const messageInput = document.getElementById('message-input');
+            const message = messageInput ? messageInput.value : '';
+
+            // Create an embed object
+            const embed = {
+                title: 'Doorbell',
+                color: 16711680, // Red color
+                description: 'Someone is at the door!',
+                fields: [
+                    {
+                        name: 'Timestamp (EST)',
+                        value: new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }),
+                        inline: true,
                     },
-                    body: JSON.stringify({
-                        content: 'Someone is at the door!',
-                    }),
-                })
-                .then(() => {
-                    // Remove the disabled-interface class after the timeout
-                    setTimeout(() => {
-                        document.body.classList.remove('disabled-interface');
-                    }, clickInterval);
-                })
-                .catch(error => {
-                    console.error('Error sending webhook:', error);
+                    {
+                        name: 'Device Info',
+                        value: deviceInfo,
+                        inline: true,
+                    },
+                    {
+                        name: 'Message',
+                        value: message,
+                    },
+                ],
+            };
 
-                    // Remove the disabled-interface class even if there is an error
-                    document.body.classList.remove('disabled-interface');
-                });
-            } else {
-                // Do nothing if the button is clicked before the interval
-            }
+            // Fetch the webhook with the embed object
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    embeds: [embed],
+                }),
+            })
+            .then(() => {
+                // Remove the disabled-interface class after the timeout
+                setTimeout(() => {
+                    contentContainer.classList.remove('disabled-interface');
+                }, clickInterval);
+            })
+            .catch(error => {
+                console.error('Error sending webhook:', error);
+
+                // Remove the disabled-interface class even if there is an error
+                contentContainer.classList.remove('disabled-interface');
+            });
+        } else {
+            // Do nothing if the button is clicked before the interval
         }
-    </script>
+    }
+</script>
+
 </head>
 <body>
     <div class="background-container"></div>
