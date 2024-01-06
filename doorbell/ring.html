@@ -41,7 +41,6 @@
             height: 150px;
             margin-top: 20px;
             cursor: pointer;
-            touch-action: manipulation; /* Ensures proper touch handling */
         }
     </style>
     <script>
@@ -90,7 +89,7 @@
     <div class="background-container"></div>
     <div class="content-container">
         <h1>Tap the doorbell</h1>
-        <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
+        <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()" ontouchstart=""> <!-- Replace with your doorbell image file name -->
     </div>
 </body>
 </html>
