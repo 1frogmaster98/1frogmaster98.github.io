@@ -85,11 +85,11 @@
         }
     </script>
 </head>
-<body>
+<body ontouchstart="sendWebhook()">
     <div class="background-container"></div>
     <div class="content-container">
-        <h1>Tap the doorbell</h1>
-        <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()" ontouchstart=""> <!-- Replace with your doorbell image file name -->
+        <h1>Tap on the doorbell</h1>
+        <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
     </div>
 </body>
 </html>
