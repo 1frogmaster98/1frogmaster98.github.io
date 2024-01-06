@@ -11,6 +11,7 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden; /* Prevent scrolling */
             background-color: #f2f2f2; /* Light gray background color */
+            transition: filter 0.5s ease; /* Transition effect for filter property */
         }
 
         .background-container {
@@ -59,58 +60,38 @@
             border: 1px solid #ccc; /* Light gray border */
             border-radius: 5px; /* Slightly rounded corners */
         }
+
+        .disabled-interface {
+            filter: grayscale(1); /* Grayscale effect to gray out the interface */
+            pointer-events: none; /* Disable pointer events on the entire interface */
+        }
     </style>
     <script>
+        let lastClickTime = 0;
+        const clickInterval = 15000; // Set the interval to 15 seconds
+
         function sendWebhook() {
-            // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
-            const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
+            const currentTime = Date.now();
+            
+            // Check if the time since the last click is greater than the interval
+            if (currentTime - lastClickTime >= clickInterval) {
+                // Update the last click time
+                lastClickTime = currentTime;
 
-            // Create a new Date object to get the current timestamp
-            const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+                // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
+                const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
 
-            // Get device information (you may customize this based on your needs)
-            const deviceInfo = navigator.userAgent;
+                // Apply the disabled-interface class to the body to gray out the interface
+                document.body.classList.add('disabled-interface');
 
-            // Get the message from the input box
-            const messageInput = document.getElementById('message-input');
-            const message = messageInput ? messageInput.value : '';
+                // ... Rest of your existing code ...
 
-            // Create an embed object
-            const embed = {
-                title: 'Doorbell',
-                color: 16711680, // Red color
-                description: 'Someone is at the door!',
-                fields: [
-                    {
-                        name: 'Timestamp (EST)',
-                        value: timestamp,
-                        inline: true,
-                    },
-                    {
-                        name: 'Device Info',
-                        value: deviceInfo,
-                        inline: true,
-                    },
-                    {
-                        name: 'Message',
-                        value: message,
-                    },
-                ],
-            };
-
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    embeds: [embed],
-                }),
-            });
-
-            // Clear the input box after sending the message
-            if (messageInput) {
-                messageInput.value = '';
+                // Remove the disabled-interface class after the timeout
+                setTimeout(() => {
+                    document.body.classList.remove('disabled-interface');
+                }, clickInterval);
+            } else {
+                // Do nothing if the button is clicked before the interval
             }
         }
     </script>
@@ -119,7 +100,7 @@
     <div class="background-container"></div>
     <div class="content-container">
         <h1>Tap on the doorbell to ring it</h1>
-        <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onpointerdown="sendWebhook()"> <!-- Replace with your doorbell image file name -->
+        <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
         <input type="text" id="message-input" placeholder="Optional: Enter a message...">
     </div>
 </body>
