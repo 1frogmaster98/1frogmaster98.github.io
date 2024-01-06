@@ -7,13 +7,17 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            background-image: url('https://media.discordapp.net/attachments/1193248383184412835/1193252597914677278/IMG_20240106_004136.jpg?ex=65ac0a14&is=65999514&hm=6f87f3f10196efa8e55df9032d82073621b43a5147feba316521314dbb4a7bff&=&format=webp&width=378&height=671'); /* Replace with your background image URL */
+            background-size: cover;
+            background-position: center;
             text-align: center;
             padding: 20px;
+            color: white; /* Text color for better visibility on the background */
+            filter: blur(3px); /* Adjust the blur amount as needed */
         }
 
         h1 {
-            color: #333;
+            color: #fff;
         }
 
         button {
@@ -30,6 +34,13 @@
         button:hover {
             background-color: #45a049;
         }
+
+        #doorbell-image {
+            width: 150px; /* Adjust the size as needed */
+            height: 150px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
     </style>
     <script>
         function sendWebhook() {
@@ -42,7 +53,7 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    content: 'NFC Tag tapped!',
+                    content: 'Someone is at the door!',
                 }),
             });
         }
@@ -51,5 +62,6 @@
 <body>
     <h1>Tap the doorbell</h1>
     <button onclick="sendWebhook()">Ring the doorbell</button>
+    <img id="doorbell-image" src="https://media.discordapp.net/attachments/1193248383184412835/1193253010353180692/patterson-rectangle-doorbell-button-m-removebg-preview.png?ex=65ac0a77&is=65999577&hm=5af8061c248ec41ad85558935bd8d33a7b45d93718307951ba94fe0be67f56e3&=&format=webp&quality=lossless" alt="Doorbell Image" onclick="sendWebhook()">
 </body>
 </html>
