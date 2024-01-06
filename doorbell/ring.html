@@ -3,17 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFC Doorbell</title>
+    <title>Doorbell</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: 'Arial', sans-serif;
-            background-image: url('https://media.discordapp.net/attachments/1193248383184412835/1193252597914677278/IMG_20240106_004136.jpg?ex=65ac0a14&is=65999514&hm=6f87f3f10196efa8e55df9032d82073621b43a5147feba316521314dbb4a7bff&=&format=webp&width=378&height=671'); /* Replace with your background image URL */
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        .background-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('background-image.jpg'); /* Replace with your background image file name */
             background-size: cover;
             background-position: center;
-            text-align: center;
-            padding: 20px;
-            color: white; /* Text color for better visibility on the background */
             filter: blur(3px); /* Adjust the blur amount as needed */
+        }
+
+        .content-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white; /* Text color for better visibility on the background */
         }
 
         h1 {
@@ -60,8 +76,11 @@
     </script>
 </head>
 <body>
-    <h1>Tap the doorbell</h1>
-    <button onclick="sendWebhook()">Ring the doorbell</button>
-    <img id="doorbell-image" src="https://media.discordapp.net/attachments/1193248383184412835/1193253010353180692/patterson-rectangle-doorbell-button-m-removebg-preview.png?ex=65ac0a77&is=65999577&hm=5af8061c248ec41ad85558935bd8d33a7b45d93718307951ba94fe0be67f56e3&=&format=webp&quality=lossless" alt="Doorbell Image" onclick="sendWebhook()">
+    <div class="background-container"></div>
+    <div class="content-container">
+        <h1>Tap the doorbell</h1>
+        <button onclick="sendWebhook()">Ring the doorbell</button>
+        <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
+    </div>
 </body>
 </html>
