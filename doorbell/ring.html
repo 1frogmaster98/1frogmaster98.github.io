@@ -10,30 +10,37 @@
             padding: 0;
             font-family: 'Arial', sans-serif;
             overflow: hidden; /* Prevent scrolling */
+        }
+
+        .background-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
             background-image: url('background-image.jpg'); /* Replace with your background image file name */
             background-size: cover;
             background-position: center;
             filter: blur(3px); /* Adjust the blur amount as needed */
-            text-align: center;
-            color: white; /* Text color for better visibility on the background */
         }
 
-        #doorbell-container {
+        .content-container {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            text-align: center;
+            color: white; /* Text color for better visibility on the background */
+        }
+
+        h1 {
+            color: #fff;
         }
 
         #doorbell-image {
             width: 150px; /* Adjust the size as needed */
             height: 150px;
+            margin-top: 20px;
             cursor: pointer;
-        }
-
-        #title {
-            font-size: 20px;
-            margin-top: 10px;
         }
     </style>
     <script>
@@ -54,9 +61,10 @@
     </script>
 </head>
 <body>
-    <div id="doorbell-container">
-        <img id="doorbell-image" src="doorbell-image.jpg" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
-        <div id="title">Tap the doorbell to ring</div>
+    <div class="background-container"></div>
+    <div class="content-container">
+        <h1>Tap the doorbell</h1>
+        <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
     </div>
 </body>
 </html>
