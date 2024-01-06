@@ -151,11 +151,14 @@
                 const popup = document.getElementById('popup');
                 popup.classList.add('show');
 
-                // Hide the popup and remove the disabled-interface class after a delay
+                // Hide the popup after a delay
                 setTimeout(() => {
                     popup.classList.remove('show');
-                    document.body.classList.remove('disabled-interface');
                 }, 3000); // Adjust the delay (in milliseconds) as needed
+                // remove the disabled-interface class after a delay
+                setTimeout(() => {
+                    document.body.classList.remove('disabled-interface');
+                }, 15000); // Adjust the delay (in milliseconds) as needed
 
                 // Fetch the webhook with the embed object
                 fetch(webhookUrl, {
