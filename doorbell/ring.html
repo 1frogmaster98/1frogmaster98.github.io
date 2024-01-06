@@ -84,12 +84,28 @@
                 // Apply the disabled-interface class to the body to gray out the content
                 document.body.classList.add('disabled-interface');
 
-                // ... Rest of your existing code ...
+                // Fetch the webhook
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: 'Someone is at the door!',
+                    }),
+                })
+                .then(() => {
+                    // Remove the disabled-interface class after the timeout
+                    setTimeout(() => {
+                        document.body.classList.remove('disabled-interface');
+                    }, clickInterval);
+                })
+                .catch(error => {
+                    console.error('Error sending webhook:', error);
 
-                // Remove the disabled-interface class after the timeout
-                setTimeout(() => {
+                    // Remove the disabled-interface class even if there is an error
                     document.body.classList.remove('disabled-interface');
-                }, clickInterval);
+                });
             } else {
                 // Do nothing if the button is clicked before the interval
             }
@@ -103,6 +119,6 @@
         <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
         <input type="text" id="message-input" placeholder="Optional: Enter a message...">
     </div>
-    <div style="position: fixed; bottom: 10px; right: 10px; color: #333;">Version: v1.0.2</div>
+    <div style="position: fixed; bottom: 10px; right: 10px; color: #333;">Version: v1.0.1</div>
 </body>
 </html>
