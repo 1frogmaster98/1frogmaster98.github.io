@@ -11,7 +11,6 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden; /* Prevent scrolling */
             background-color: #f2f2f2; /* Light gray background color */
-            transition: filter 0.5s ease; /* Transition effect for filter property */
         }
 
         .background-container {
@@ -36,6 +35,7 @@
             border-radius: 10px; /* Rounded corners */
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+            transition: filter 0.5s ease; /* Transition effect for filter property */
         }
 
         h1 {
@@ -61,9 +61,9 @@
             border-radius: 5px; /* Slightly rounded corners */
         }
 
-        .disabled-interface {
-            filter: grayscale(1); /* Grayscale effect to gray out the interface */
-            pointer-events: none; /* Disable pointer events on the entire interface */
+        .disabled-interface .content-container {
+            filter: grayscale(1); /* Grayscale effect to gray out the content */
+            pointer-events: none; /* Disable pointer events on the content */
         }
     </style>
     <script>
@@ -81,7 +81,7 @@
                 // Replace 'YOUR_WEBHOOK_URL' with the actual webhook URL
                 const webhookUrl = 'https://discord.com/api/webhooks/1193248401559662693/poHQwLv395pljQfSgwXBA5efzhfXZ_VcLCGcmr7lUvIrHNJ8T_5_dyzIdBA9x3QwWEkn';
 
-                // Apply the disabled-interface class to the body to gray out the interface
+                // Apply the disabled-interface class to the body to gray out the content
                 document.body.classList.add('disabled-interface');
 
                 // ... Rest of your existing code ...
@@ -103,6 +103,6 @@
         <img id="doorbell-image" src="doorbell-image.png" alt="Doorbell Image" onclick="sendWebhook()"> <!-- Replace with your doorbell image file name -->
         <input type="text" id="message-input" placeholder="Optional: Enter a message...">
     </div>
-    <div style="position: fixed; bottom: 10px; right: 10px; color: #333;">Version: v1.0.1</div>
+    <div style="position: fixed; bottom: 10px; right: 10px; color: #333;">Version: v1.0.2</div>
 </body>
 </html>
